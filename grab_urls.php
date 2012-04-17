@@ -46,6 +46,7 @@
     $data = $ckan->get_group_register();
     if ($data) {
     //print_r($data);
+      echo "Groups on the registry:" . PHP_EOL;
       for ($i = 0; $i < count($data); $i++) {
          echo $data[$i] . PHP_EOL;
       }
@@ -64,6 +65,7 @@ $groups = $data;
 //$groups = array("hewlett-foundation","aa");
 //$groups = array("dfid");
 
+echo "Fetching:" . PHP_EOL;
 foreach ($groups as $group) {
   $file = "urls/" . $group;
   try
