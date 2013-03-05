@@ -73,22 +73,28 @@ Requirements
 ------------
 IATI Registry Refresher requires PHP version 5.2.0 or later.
 
+It also requires curl.
+on Ubuntu 
+sudo apt-get install curl
+sudo apt-get install php5-curl
+
 
 Installation and usage
 ----------------------
 
 Place all files in the same directory.
 Create an empty directory called 'urls'
+Create an empty directory called 'data'
 
 From a terminal, use php-cli to run:
 php grab_urls.php
-
+(if you want to set up your own paths, copy this file to e.g. grab_my_urls.php and edit the paths.)
 This gives the data endpoints for all the files in the IATI registry (see 
 http://iatiregistry.org/)
 
 Run fetch_data.sh to get all the data.
 (In a terminal type ./fetch_data.sh) 
-
+(if you want to set up your own paths, copy this file to e.gg. e.g. fetch_my_urls.sh and edit the paths.)
 
 
 Bugs, issues and feature requests

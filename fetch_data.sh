@@ -27,7 +27,8 @@ for f in $FILES
 do
   
   echo "Processing $f file..."
-  wget -P data/`basename $f`/ -i "$f" 
+  # --no-check-certificate added to deal with sites using https - not the best solution!
+  wget --no-check-certificate -P  data/`basename $f`/ -i "$f"  
   # take action on each file. $f store current file name
   #cat $f
 done
