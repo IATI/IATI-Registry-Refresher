@@ -1,4 +1,4 @@
-===IATI Registry Refresher===
+# IATI Registry Refresher
 This small aplication allows you to query the CKAN implementation at iatiregistry.org
 to find all 'end point' urls of data recorded on the registry, and to then download that data.
 
@@ -6,10 +6,10 @@ The registry holds records about where data can be found on the interent.
 
 The application is basically 2 scripts that you run one after the other.
 
-grab_urls.php 
+`grab_urls.php` 
 queries the registry and creates a text file for each group on the registry of all url end points of IATI data files
 
-fetch_data.sh
+`fetch_data.sh`
 uses wget to pull all the data from those url text files and deposit them in their own directory.
 
 
