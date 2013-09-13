@@ -1,4 +1,6 @@
-# IATI Registry Refresher
+IATI Registry Refresher
+=======================
+
 This small aplication allows you to query the CKAN implementation at iatiregistry.org
 to find all 'end point' urls of data recorded on the registry, and to then download that data.
 
@@ -13,7 +15,8 @@ queries the registry and creates a text file for each group on the registry of a
 uses wget to pull all the data from those url text files and deposit them in their own directory.
 
 
-==Licence==
+Licence
+-------
 Copyright 2012 caprenter <caprenter@gmail.com>
      
 This file is part of IATI Registry Refresher.
@@ -36,7 +39,7 @@ for more details.
 
 This application relies very very heavily on:
 
-===Ckan_client-PHP==
+### Ckan_client-PHP
 Copyright (c) 2010 Jeffrey Barke <http://jeffreybarke.net/>
 https://github.com/jeffreybarke/Ckan_client-PHP
 Licensed under the MIT license
@@ -59,7 +62,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-===PHP Markdown===
+### PHP Markdown
 Ckan_client.php includes a copy of Michel Fortin's PHP Markdown (copyright (c) 
 2004-2009 Michel Fortin <http://michelf.com/>. All rights reserved.) which is 
 based on on Markdown (copyright (c) 2003-2006 John Gruber 
