@@ -15,8 +15,51 @@ queries the registry and creates a text file for each group on the registry of a
 uses wget to pull all the data from those url text files and deposit them in their own directory.
 
 
+
+Requirements
+------------
+IATI Registry Refresher requires PHP version 5.2.0 or later.
+
+It also requires curl.
+on Ubuntu 
+```
+sudo apt-get install curl
+sudo apt-get install php5-curl
+```
+
+
+Installation and usage
+----------------------
+
+Place all files in the same directory.
+Create an empty directories called `urls` and `data`, e.g.
+```
+mkdir urls data
+```
+
+From a terminal, use php-cli to run:
+```
+php grab_urls.php
+```
+(if you want to set up your own paths, copy this file to e.g. ` grab_my_urls.php` and edit the paths.)
+This gives the data endpoints for all the files in the IATI registry (see 
+http://iatiregistry.org/)
+
+Run fetch_data.sh to get all the data.
+(In a terminal type `./fetch_data.sh`) 
+(if you want to set up your own paths, copy this file to e.g. `fetch_my_urls.sh` and edit the paths.)
+
+
+Bugs, issues and feature requests
+--------------------------------
+
+If you find any bugs, note any issues or have any feature requests, please
+report them at https://github.com/caprenter/IATI-Registry-Refresher
+
 Licence
 -------
+
+``` 
 Copyright 2012 caprenter <caprenter@gmail.com>
      
 This file is part of IATI Registry Refresher.
@@ -33,13 +76,12 @@ GNU General Public License for more details.
     
 You should have received a copy of the GNU General Public License
 along with IATI Registry Refresher.  If not, see <http://www.gnu.org/licenses/>.
-
-IATI Registry Refresher relies on other free software products. See the README.txt file 
-for more details.
+```
 
 This application relies very very heavily on:
 
 ### Ckan_client-PHP
+```
 Copyright (c) 2010 Jeffrey Barke <http://jeffreybarke.net/>
 https://github.com/jeffreybarke/Ckan_client-PHP
 Licensed under the MIT license
@@ -61,8 +103,10 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
 
 ### PHP Markdown
+```
 Ckan_client.php includes a copy of Michel Fortin's PHP Markdown (copyright (c) 
 2004-2009 Michel Fortin <http://michelf.com/>. All rights reserved.) which is 
 based on on Markdown (copyright (c) 2003-2006 John Gruber 
@@ -70,38 +114,5 @@ based on on Markdown (copyright (c) 2003-2006 John Gruber
 
 Read Me: ./lib/php_markdown/PHP Markdown Readme.text
 License: ./lib/php_markdown/License.text
+```
 
-
-Requirements
-------------
-IATI Registry Refresher requires PHP version 5.2.0 or later.
-
-It also requires curl.
-on Ubuntu 
-sudo apt-get install curl
-sudo apt-get install php5-curl
-
-
-Installation and usage
-----------------------
-
-Place all files in the same directory.
-Create an empty directory called 'urls'
-Create an empty directory called 'data'
-
-From a terminal, use php-cli to run:
-php grab_urls.php
-(if you want to set up your own paths, copy this file to e.g. grab_my_urls.php and edit the paths.)
-This gives the data endpoints for all the files in the IATI registry (see 
-http://iatiregistry.org/)
-
-Run fetch_data.sh to get all the data.
-(In a terminal type ./fetch_data.sh) 
-(if you want to set up your own paths, copy this file to e.gg. e.g. fetch_my_urls.sh and edit the paths.)
-
-
-Bugs, issues and feature requests
---------------------------------
-
-If you find any bugs, note any issues or have any feature requests, please
-report them at https://github.com/caprenter/IATI-Registry-Refresher
