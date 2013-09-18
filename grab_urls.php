@@ -76,7 +76,7 @@ foreach ($groups as $group) {
       //print '<blockquote><h3>' . $data->title . '</h3><p>' . 
         ///$data->description . '</p>';
       if (count($data->packages) > 0):
-        foreach ($data->packages as $val):
+        foreach (array_unique($data->packages) as $val):
           $package = $ckan->get_package_entity($val);
           $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
         endforeach;
