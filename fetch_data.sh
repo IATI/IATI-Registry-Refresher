@@ -28,7 +28,8 @@ do
   
   echo "Processing $f file..."
   # --no-check-certificate added to deal with sites using https - not the best solution!
-  wget --no-check-certificate -P  data/`basename $f`/ -i "$f"  
+  wget --no-check-certificate --restrict-file-names=nocontrol -P  data/`basename $f`/ -U "Snapshot" -i "$f" -w 1
   # take action on each file. $f store current file name
   #cat $f
+  sleep 1s
 done
