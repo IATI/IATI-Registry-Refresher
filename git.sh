@@ -9,7 +9,7 @@ git rm -r *
 cd ..
 rm urls/*
 php grab_urls.php
-./fetch_data.sh
+./fetch_data.sh 2> debug > errors
 cd data/
 git checkout master -- README.md
 git add .

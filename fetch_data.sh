@@ -26,8 +26,6 @@ IFS=$'\n'
 FILES=urls/*
 for f in $FILES
 do
-  
-  echo "Processing $f file..."
   for url in `cat $f`; do
     # --no-check-certificate added to deal with sites using https - not the best solution!
     wget --no-check-certificate --restrict-file-names=nocontrol -P  data/`basename $f`/ -U "Snapshot" "$url"
