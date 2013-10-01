@@ -22,3 +22,11 @@ cd ..
 xmllint data/*/* > /dev/null 2> xmlerrors
 gist xmlerrors -u 6726333
 
+for f in data/*/*; do echo "`xmllint --xpath "name(/*)" "$f"` $f"; done > topelements
+cat topelements | grep -v iati-activities | grep -v iati-organisations > nonstandardroots
+gist -u 6728773 nonstandardroots 
+
+for f in data/*/*; do echo "`xmllint --xpath "string(/*/@version)" "$f"` $f"; done > versions
+awk -F '[ ]' '{print $1}' versions | sort | uniq -c > 0_versions-summary
+gist -u 6729360 0_versions-summary versions
+
