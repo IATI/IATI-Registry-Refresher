@@ -76,6 +76,8 @@ foreach ($groups as $group) {
       //print '<blockquote><h3>' . $data->title . '</h3><p>' . 
         ///$data->description . '</p>';
       if (count($data->packages) > 0):
+        // Make sure our list of packages is unique to work around
+        // http://data.tickets.iatistandard.org/ticket/115
         foreach (array_unique($data->packages) as $val):
           $package = $ckan->get_package_entity($val);
           $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
