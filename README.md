@@ -50,6 +50,12 @@ Run fetch_data.sh to get all the data.
 (if you want to set up your own paths, copy this file to e.g. `fetch_my_urls.sh` and edit the paths.)
 
 
+Wget Caveats
+------------
+
+If your copy of wget is compiled against an old version of gnutls, then some https downloads will fail. Please make sure your system has the latest version of gnutls installed.
+
+
 Bugs, issues and feature requests
 --------------------------------
 
