@@ -22,13 +22,29 @@
 #      IATI Registry Refresher relies on other free software products. See the README.txt file 
 #      for more details.
 #
+
+# Set the internal field seperator to newline, so that we can loop over newline
+# seperated url lists correctly.
+IFS=$'\n'
+
 FILES=urls/*
 for f in $FILES
 do
-  
-  echo "Processing $f file..."
-  # --no-check-certificate added to deal with sites using https - not the best solution!
-  wget --no-check-certificate -P  data/`basename $f`/ -i "$f"  
-  # take action on each file. $f store current file name
-  #cat $f
+  for url in `cat $f`; do
+    # --no-check-certificate added to deal with sites using https - not the
+    #                        best solution!
+    # --restrict-file-names=nocontrol ensures that UTF8 files get created
+    #                                 properly
+    # -U sets our custom user agent, which allows sites to keep track of which
+    #    robots are accessing them
+    wget --no-check-certificate --restrict-file-names=nocontrol -P  data/`basename $f`/ -U "IATI-Registry-Refresher" "$url"
+    # Fetch the exitcode of the previous command
+    exitcode=$?
+    # If the exitcode is not zero (ie. there was an error), output to STDIN
+    if [ $exitcode -ne 0 ]; then
+      echo $exitcode $f $url
+    fi
+    # Delay of 1 second between requests, so as not to upset servers
+    sleep 1s
+  done
 done
