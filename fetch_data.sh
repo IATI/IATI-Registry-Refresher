@@ -37,7 +37,7 @@ do
     #                                 properly
     # -U sets our custom user agent, which allows sites to keep track of which
     #    robots are accessing them
-    wget --no-check-certificate --restrict-file-names=nocontrol -P  data/`basename $f`/ -U "IATI-Registry-Refresher" "$url"
+    wget --no-check-certificate --restrict-file-names=nocontrol -P  data/`basename $f`/ -U "IATI-Data-Snappshotter" "$url"
     # Fetch the exitcode of the previous command
     exitcode=$?
     # If the exitcode is not zero (ie. there was an error), output to STDIN
