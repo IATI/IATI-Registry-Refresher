@@ -43,3 +43,16 @@ comm -23 list list-validate > list-fail-validate
 wc -l list* | sed '/total/ d' > 0_list-summary
 $GIST && gist -u 6931534 0_list-summary list-fail-validate
 
+
+cat list | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers
+cat list-fail-validate | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers-somefail
+cat list-validate | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers-someokay
+
+comm -12 publishers-somefail publishers-someokay > publishers-onlysomefail
+comm -23 publishers-somefail publishers-someokay > publishers-allfail
+comm -13 publishers-somefail publishers-someokay > publishers-allokay
+
+wc -l publishers* > 0_publishers-summary
+
+$GIST && gist -u 6991379 0_publishers-summary publishers-allfail publishers-onlysomefail
+
