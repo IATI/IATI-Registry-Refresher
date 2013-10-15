@@ -68,11 +68,11 @@ $groups = $data;
 echo "Fetching:" . PHP_EOL;
 foreach ($groups as $group) {
   $file = "urls/" . $group;
-  try
-  {
+  try {
     $data = $ckan->get_group_entity($group);
     if ($data):
-    echo $data->title. PHP_EOL;
+      $urls_string="";
+      echo $data->title. PHP_EOL;
       //print '<blockquote><h3>' . $data->title . '</h3><p>' . 
         ///$data->description . '</p>';
       if (count($data->packages) > 0):
@@ -80,16 +80,17 @@ foreach ($groups as $group) {
         // http://data.tickets.iatistandard.org/ticket/115
         foreach (array_unique($data->packages) as $val):
           $package = $ckan->get_package_entity($val);
-          $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
+          try {
+            $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
+          } catch (Exception $e) {
+            print 'Caught exception in '.$file.': ' . $e->getMessage();
+          }
         endforeach;
       endif;
       file_put_contents($file, $urls_string, LOCK_EX);
-      $urls_string="";
     endif;
-  }
-  catch (Exception $e)
-  {
-    print 'Caught exception: ' . $e->getMessage();
+  } catch (Exception $e) {
+    print 'Caught exception in '.$file.': ' . $e->getMessage();
   }
 
   //unset($ckan);
