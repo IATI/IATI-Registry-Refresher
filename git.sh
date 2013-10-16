@@ -2,7 +2,7 @@
 # These are the commands used to update
 # https://github.com/Bjwebb/IATI-Data-Snapshot each night. If you wish to use
 # it yourself, you will need comment out, or change the gist commands and
-# create a git repository in the data/ directory.
+# create a git repository in the data/ and urls/ directories.
 
 # Ensure that the current working directory is the one containing this file
 cd "$( dirname "${BASH_SOURCE[0]}" )"
@@ -34,6 +34,7 @@ echo "." >> errors
 gist errors -u 6726204
 gist debug -u 6726200
 
+# Keep track of urls in a git repository also
 cd urls/
 git add .
 git commit -a -m "Automatic data refresh"

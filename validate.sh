@@ -44,6 +44,7 @@ wc -l list* | sed '/total/ d' > 0_list-summary
 $GIST && gist -u 6931534 0_list-summary list-fail-validate
 
 
+# Group the validation failures by publisher
 cat list | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers
 cat list-fail-validate | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers-somefail
 cat list-validate | sed 's/^data\///' | sed 's/\/.*$//' | sort | uniq > publishers-someokay
@@ -55,4 +56,12 @@ comm -13 publishers-somefail publishers-someokay > publishers-allokay
 wc -l publishers* > 0_publishers-summary
 
 $GIST && gist -u 6991379 0_publishers-summary publishers-allfail publishers-onlysomefail
+
+
+
+# List publishers with/without an organisation file
+cat topelements | grep iati-organisations | sed -e 's|iati-organisations data/||' -e 's|/.*$||' | sort | uniq > haveorg
+comm -23 publishers haveorg > nohaveorg
+wc -l *haveorg > 0_haveorg-summary
+$GIST && gist -u 6992244 0_haveorg-summary nohaveorg 
 
