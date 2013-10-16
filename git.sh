@@ -19,7 +19,9 @@ git pull --ff-only
 # them
 git rm -r *
 cd ..
-rm urls/*
+cd urls
+git rm -r *
+cd ..
 
 # Run grab_urls.php
 php grab_urls.php
@@ -31,6 +33,12 @@ php grab_urls.php
 echo "." >> errors
 gist errors -u 6726204
 gist debug -u 6726200
+
+cd urls/
+git add .
+git commit -a -m "Automatic data refresh"
+git push
+cd ..
 
 cd data/
 # Ensure that we retain the README. Any other persistent files should be added
