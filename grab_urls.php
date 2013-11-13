@@ -29,7 +29,7 @@
 @ini_set('display_errors', 'stdout');
   
 function api_request($path, $data=null) {
-    $api_root = "http://iati2.staging.ckanhosted.com/api/3/";
+    $api_root = "http://iatiregistry.org/api/3/";
 
     if ($data === null) $data_string = '{}';
     else $data_string = json_encode($data);
@@ -54,7 +54,9 @@ $urls = array();
 
 //Pull all the group identifiers from the registry
 //We store them in an array , $groups, for later use
-$groups = api_request('action/organization_list');
+$groups = api_request('action/group_list');
+//Switch to this when iatiregistry.org transitions to CKAN 2:
+//$groups = api_request('action/organization_list');
 
 //Loop through each group and save the URL end-points of the data files
 //You may need to set up an empty directory called "urls"
