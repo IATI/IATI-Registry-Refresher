@@ -28,6 +28,7 @@
 @ini_set('error_reporting', E_ALL);
 @ini_set('display_errors', 'stdout');
   
+// Function to perform an API request against the IATI Registry CKAN v3 API
 function api_request($path, $data=null) {
     $api_root = "http://iatiregistry.org/api/3/";
 
@@ -58,13 +59,13 @@ $groups = api_request('action/group_list');
 //Switch to this when iatiregistry.org transitions to CKAN 2:
 //$groups = api_request('action/organization_list');
 
-//Loop through each group and save the URL end-points of the data files
-//You may need to set up an empty directory called "urls"
-
 //Overide the group array, e.g. for testing. Uncomment and edit the line(s) below
 //$groups = array("hewlett-foundation","aa");
 //$groups = array("dfid");
 
+
+//Loop through each group and save the URL end-points of the data files
+//You may need to set up an empty directory called "urls"
 echo "Fetching:" . PHP_EOL;
 foreach ($groups as $group) {
     $file = "urls/" . $group;

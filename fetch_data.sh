@@ -37,6 +37,8 @@ do
     #                                 properly
     # -U sets our custom user agent, which allows sites to keep track of which
     #    robots are accessing them
+    # --read-timeout=15 gives up if no data is sent for more than 15 seconds
+    # --tries=3 means a download is tried at most 3 times
     wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=15 -P  data/`basename $f`/ -U "IATI-Data-Snappshotter" "$url"
     # Fetch the exitcode of the previous command
     exitcode=$?

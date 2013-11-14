@@ -22,7 +22,7 @@ awk -F '[ ]' '{print $1}' versions | sort | uniq -c > 0_versions-summary
 $GIST && gist -u 6729360 0_versions-summary versions
 
 
-# Validate all the files
+# Validate all the files against the relevant schema
 for f in data/*/*; do echo $f; done > list   
 for f in data/*/*; do 
     topel="`xmllint --xpath "name(/*)" "$f"`"
