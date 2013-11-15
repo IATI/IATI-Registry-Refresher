@@ -77,6 +77,7 @@ foreach ($groups as $group) {
             try {
                 $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
             } catch (Exception $e) {
+                // Catch exceptions here to prevent one url from breaking an entire publisher
                 print 'Caught exception in '.$file.': ' . $e->getMessage();
             }
         }
