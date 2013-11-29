@@ -30,7 +30,11 @@ IFS=$'\n'
 FILES=urls/*
 for f in $FILES
 do
-  for url in `cat $f`; do
+  for url_line in `cat $f`; do
+    url=`echo $url_line | sed 's/^[^ ]* //'`
+    package_name=`echo $url_line | sed 's/ .*$//'`
+    mkdir -p data/`basename $f`/
+
     # --no-check-certificate added to deal with sites using https - not the
     #                        best solution!
     # --restrict-file-names=nocontrol ensures that UTF8 files get created
@@ -39,13 +43,14 @@ do
     #    robots are accessing them
     # --read-timeout=15 gives up if no data is sent for more than 15 seconds
     # --tries=3 means a download is tried at most 3 times
-    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=15 -P  data/`basename $f`/ -U "IATI-Data-Snappshotter" "$url"
+    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=15 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
     # Fetch the exitcode of the previous command
     exitcode=$?
     # If the exitcode is not zero (ie. there was an error), output to STDIN
     if [ $exitcode -ne 0 ]; then
       echo $exitcode $f $url
     fi
+
     # Delay of 1 second between requests, so as not to upset servers
     sleep 1s
   done

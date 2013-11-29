@@ -75,7 +75,7 @@ foreach ($groups as $group) {
         $packages = api_request('action/group_package_show', array('id'=>$group));
         foreach ($packages as $package) {
             try {
-                $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
+                $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;
             } catch (Exception $e) {
                 // Catch exceptions here to prevent one url from breaking an entire publisher
                 print 'Caught exception in '.$file.': ' . $e->getMessage();
