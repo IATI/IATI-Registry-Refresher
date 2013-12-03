@@ -55,9 +55,7 @@ $urls = array();
 
 //Pull all the group identifiers from the registry
 //We store them in an array , $groups, for later use
-$groups = api_request('action/group_list');
-//Switch to this when iatiregistry.org transitions to CKAN 2:
-//$groups = api_request('action/organization_list');
+$groups = api_request('action/organization_list');
 
 //Overide the group array, e.g. for testing. Uncomment and edit the line(s) below
 //$groups = array("hewlett-foundation","aa");
