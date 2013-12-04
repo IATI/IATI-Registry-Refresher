@@ -24,76 +24,67 @@
  */
 
 
-  // Display errors for demo
-  @ini_set('error_reporting', E_ALL);
-  @ini_set('display_errors', 'stdout');
+// Display errors for demo
+@ini_set('error_reporting', E_ALL);
+@ini_set('display_errors', 'stdout');
   
-  // Include Ckan_client
-  require_once('Ckan_client.php');
+// Function to perform an API request against the IATI Registry CKAN v3 API
+function api_request($path, $data=null) {
+    $api_root = "http://iatiregistry.org/api/3/";
 
-  // Create CKAN object
-  $ckan = new Ckan_client();
+    if ($data === null) $data_string = '{}';
+    else $data_string = json_encode($data);
+
+    $ch = curl_init($api_root.$path);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: '.strlen($data_string))
+    );
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($result)->result;
+}
   
-  //Empty variables    
-  $urls = array();
-  $urls_string="";
+//Empty variables    
+$urls = array();
 
-
-  //Pull all the group identifiers from the registry
-  //We store them in an array , $data, for later use
-  try
-  {
-    $data = $ckan->get_group_register();
-    if ($data) {
-    //print_r($data);
-      echo "Groups on the registry:" . PHP_EOL;
-      for ($i = 0; $i < count($data); $i++) {
-         echo $data[$i] . PHP_EOL;
-      }
-    }
-  }
-  catch (Exception $e)
-  {
-    print 'Caught exception: ' . $e->getMessage();
-  }
-  
-//Loop through each group and save the URL end-points of the data files
-//You may need to set up an empty directory called "urls"
-$groups = $data;
+//Pull all the group identifiers from the registry
+//We store them in an array , $groups, for later use
+$groups = api_request('action/organization_list');
 
 //Overide the group array, e.g. for testing. Uncomment and edit the line(s) below
 //$groups = array("hewlett-foundation","aa");
 //$groups = array("dfid");
 
+
+//Loop through each group and save the URL end-points of the data files
+//You may need to set up an empty directory called "urls"
 echo "Fetching:" . PHP_EOL;
 foreach ($groups as $group) {
-  $file = "urls/" . $group;
-  try
-  {
-    $data = $ckan->get_group_entity($group);
-    if ($data):
-    echo $data->title. PHP_EOL;
-      //print '<blockquote><h3>' . $data->title . '</h3><p>' . 
-        ///$data->description . '</p>';
-      if (count($data->packages) > 0):
-        // Make sure our list of packages is unique to work around
-        // http://data.tickets.iatistandard.org/ticket/115
-        foreach (array_unique($data->packages) as $val):
-          $package = $ckan->get_package_entity($val);
-          $urls_string .= (string)$package->resources[0]->url . PHP_EOL;
-        endforeach;
-      endif;
-      file_put_contents($file, $urls_string, LOCK_EX);
-      $urls_string="";
-    endif;
-  }
-  catch (Exception $e)
-  {
-    print 'Caught exception: ' . $e->getMessage();
-  }
-
-  //unset($ckan);
+    $file = "urls/" . $group;
+    echo $group."\n";
+    try {
+        $urls_string = '';
+        $packages = api_request('action/group_package_show', array('id'=>$group));
+        foreach ($packages as $package) {
+            try {
+                $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;
+            } catch (Exception $e) {
+                // Catch exceptions here to prevent one url from breaking an entire publisher
+                print 'Caught exception in '.$file.': ' . $e->getMessage();
+            }
+        }
+        file_put_contents($file, $urls_string, LOCK_EX);
+    } catch (Exception $e) {
+        print 'Caught exception in '.$file.': ' . $e->getMessage();
+    }
 }
+
 ?>
 
 
