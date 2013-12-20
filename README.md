@@ -34,7 +34,7 @@ Installation and usage
 Place all files in the same directory.
 Create an empty directories called `urls` and `data`, e.g.
 ```
-mkdir urls data
+mkdir urls data ckan
 ```
 
 From a terminal, use php-cli to run:

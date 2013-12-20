@@ -29,7 +29,7 @@
 @ini_set('display_errors', 'stdout');
   
 // Function to perform an API request against the IATI Registry CKAN v3 API
-function api_request($path, $data=null, $file=null) {
+function api_request($path, $data=null, $ckan_file=null) {
     $api_root = "http://iatiregistry.org/api/3/";
 
     if ($data === null) $data_string = '{}';
@@ -47,8 +47,9 @@ function api_request($path, $data=null, $file=null) {
     $result = curl_exec($ch);
     curl_close($ch);
 
-    if ($file !== null) {
-        file_put_contents($file, $result, LOCK_EX);
+    if ($ckan_file !== null) {
+        // Save CKAN json from the API call to a file
+        file_put_contents($ckan_file, $result, LOCK_EX);
     }
 
     return json_decode($result)->result;
