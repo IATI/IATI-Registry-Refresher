@@ -43,8 +43,18 @@ function api_request($path, $data=null, $ckan_file=null) {
         'Content-Type: application/json',
         'Content-Length: '.strlen($data_string))
     );
-
-    $result = curl_exec($ch);
+    
+    // Try up to 5 times if we get a 500 error.
+    for ($i=0; $i<5; $i++) {
+        $result = curl_exec($ch);
+        if (curl_getinfo($ch)['http_code'] == 500) {
+            // Wait a second before we retry
+            sleep(1);
+        }
+        else {
+            break;
+        }
+    }
     curl_close($ch);
 
     if ($ckan_file !== null) {
