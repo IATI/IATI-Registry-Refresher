@@ -29,7 +29,7 @@
 @ini_set('display_errors', 'stdout');
   
 // Function to perform an API request against the IATI Registry CKAN v3 API
-function api_request($path, $data=null) {
+function api_request($path, $data=null, $ckan_file=null) {
     $api_root = "http://iatiregistry.org/api/3/";
 
     if ($data === null) $data_string = '{}';
@@ -43,9 +43,24 @@ function api_request($path, $data=null) {
         'Content-Type: application/json',
         'Content-Length: '.strlen($data_string))
     );
-
-    $result = curl_exec($ch);
+    
+    // Try up to 5 times if we get a 500 error.
+    for ($i=0; $i<5; $i++) {
+        $result = curl_exec($ch);
+        if (curl_getinfo($ch)['http_code'] == 500) {
+            // Wait a second before we retry
+            sleep(1);
+        }
+        else {
+            break;
+        }
+    }
     curl_close($ch);
+
+    if ($ckan_file !== null) {
+        // Save CKAN json from the API call to a file
+        file_put_contents($ckan_file, $result, LOCK_EX);
+    }
 
     return json_decode($result)->result;
 }
@@ -70,7 +85,7 @@ foreach ($groups as $group) {
     echo $group."\n";
     try {
         $urls_string = '';
-        $packages = api_request('action/group_package_show', array('id'=>$group));
+        $packages = api_request('action/group_package_show', array('id'=>$group), "ckan/" . $group);
         foreach ($packages as $package) {
             try {
                 $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;

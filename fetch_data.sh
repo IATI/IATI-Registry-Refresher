@@ -46,9 +46,9 @@ do
     wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=15 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
     # Fetch the exitcode of the previous command
     exitcode=$?
-    # If the exitcode is not zero (ie. there was an error), output to STDIN
+    # If the exitcode is not zero (ie. there was an error), output to STDOUT
     if [ $exitcode -ne 0 ]; then
-      echo $exitcode $f $url
+      echo $exitcode `basename $f` $url_line
     fi
 
     # Delay of 1 second between requests, so as not to upset servers
