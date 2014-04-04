@@ -41,9 +41,12 @@ do
     #                                 properly
     # -U sets our custom user agent, which allows sites to keep track of which
     #    robots are accessing them
-    # --read-timeout=15 gives up if no data is sent for more than 15 seconds
+    # --read-timeout=180 times out if no data is sent for more than 10 seconds
+    # --dns-timeout=10 times out if DNS information takes longer than 10 seconds
+    # --connect-timeout=10 times out if establishing a connection takes longer
+    #                      than 10 seconds
     # --tries=3 means a download is tried at most 3 times
-    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=15 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
+    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=180 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" "$url" -O data/
     # Fetch the exitcode of the previous command
     exitcode=$?
     # If the exitcode is not zero (ie. there was an error), output to STDOUT
