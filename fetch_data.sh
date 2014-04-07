@@ -46,7 +46,7 @@ do
     # --connect-timeout=10 times out if establishing a connection takes longer
     #                      than 10 seconds
     # --tries=3 means a download is tried at most 3 times
-    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=180 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" "$url" -O data/
+    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=180 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
     # Fetch the exitcode of the previous command
     exitcode=$?
     # If the exitcode is not zero (ie. there was an error), output to STDOUT
