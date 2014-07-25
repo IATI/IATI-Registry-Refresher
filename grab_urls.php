@@ -85,8 +85,8 @@ foreach ($groups as $group) {
     echo $group."\n";
     try {
         $urls_string = '';
-        $packages = api_request('action/group_package_show', array('id'=>$group), "ckan/" . $group);
-        foreach ($packages as $package) {
+        $result = api_request('action/package_search', array('fq'=>"organization:".$group, 'rows'=>1000000), "ckan/" . $group);
+        foreach ($result->results as $package) {
             try {
                 $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;
             } catch (Exception $e) {
