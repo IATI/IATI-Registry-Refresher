@@ -30,8 +30,8 @@ php grab_urls.php
 ./fetch_data.sh 2> debug > errors
 # Prevent empty gist that won't be uploaded
 echo "." >> errors
-gist errors -u 6726204
-gist debug -u 6726200
+gist errors -u 4f86dc7b36562c8b2b21
+gist debug -u 2fff388417fa0ca9509b
 
 # Keep track of urls in a git repository also
 cd urls/

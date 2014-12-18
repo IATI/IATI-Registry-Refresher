@@ -10,7 +10,7 @@ for f in data/*/*; do
 done 2> xmlerrors
 # Prevent empty gist that won't be uploaded
 echo "." >> xmlerrors
-$GIST && gist xmlerrors -u 6726333
+$GIST && gist xmlerrors -u 91d17eb2914e88352d0b
 
 # List all root elements in our xml files
 for f in data/*/*; do
@@ -22,13 +22,13 @@ done > topelements
 cat topelements | grep -v iati-activities | grep -v iati-organisations > nonstandardroots
 # Prevent empty gist that won't be uploaded
 echo "." >> nonstandardroots
-$GIST && gist -u 6728773 nonstandardroots 
+$GIST && gist -u fbe815d15a92529de98a nonstandardroots 
 
 # List the version attribute of the root element of all xml files
 for f in data/*/*; do echo "`xmllint --xpath "string(/*/@version)" "$f"` $f"; done > versions
 # Summarise these
 awk -F '[ ]' '{print $1}' versions | sort | uniq -c > 0_versions-summary
-$GIST && gist -u 6729360 0_versions-summary versions
+$GIST && gist -u aee066b6a0784e0a0ecf 0_versions-summary versions
 
 
 # Validate all the files against the relevant schema
@@ -56,7 +56,7 @@ done > list-validate
 comm -23 list list-validate > list-fail-validate
 
 wc -l list* | sed '/total/ d' > 0_list-summary
-$GIST && gist -u 6931534 0_list-summary list-fail-validate
+$GIST && gist -u 033cfc386fdde12b7485 0_list-summary list-fail-validate
 
 
 # Group the validation failures by publisher
@@ -70,7 +70,7 @@ comm -13 publishers-somefail publishers-someokay > publishers-allokay
 
 wc -l publishers* > 0_publishers-summary
 
-$GIST && gist -u 6991379 0_publishers-summary publishers-allfail publishers-onlysomefail
+$GIST && gist -u 4a3699c148f4f693c978 0_publishers-summary publishers-allfail publishers-onlysomefail
 
 
 
@@ -78,5 +78,5 @@ $GIST && gist -u 6991379 0_publishers-summary publishers-allfail publishers-only
 cat topelements | grep iati-organisations | sed -e 's|iati-organisations data/||' -e 's|/.*$||' | sort | uniq > haveorg
 comm -23 publishers haveorg > nohaveorg
 wc -l *haveorg > 0_haveorg-summary
-$GIST && gist -u 6992244 0_haveorg-summary nohaveorg 
+$GIST && gist -u 1ed80295444e66dd9c01 0_haveorg-summary nohaveorg 
 
