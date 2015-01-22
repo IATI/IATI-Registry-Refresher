@@ -1,6 +1,11 @@
 IATI Registry Refresher
 =======================
 
+[![License: MIT](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://github.com/IATI/IATI-Registry-Refresher#licence)
+
+Introduction
+------------
+
 This small aplication allows you to query the CKAN implementation at iatiregistry.org
 to find all 'end point' urls of data recorded on the registry, and to then download that data.
 
