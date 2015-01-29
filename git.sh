@@ -2,12 +2,16 @@
 # These are the commands used to update a git repository each night. If you
 # wish to use it yourself, you will need comment out, or change the gist
 # commands and create a git repository in the data/ and urls/ directories.
+# 
+# Full details of how this is deployed on IATI servers can be found in this
+# state file:
+# https://github.com/IATI/IATI-Websites/blob/master/salt/dashboard.sls
 
 # Ensure that the current working directory is the one containing this file
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Update the git repository in data/ but do not try to merge
-# Any merges have to be done manaully
+# Any merges (or rebases) have to be done manaully
 cd data/
 git checkout master
 git pull --ff-only
