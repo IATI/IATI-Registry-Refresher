@@ -20,7 +20,6 @@ queries the registry and creates a text file for each group on the registry of a
 uses wget to pull all the data from those url text files and deposit them in their own directory.
 
 
-
 Requirements
 ------------
 IATI Registry Refresher requires PHP version 5.2.0 or later.
@@ -53,6 +52,13 @@ http://iatiregistry.org/)
 Run fetch_data.sh to get all the data.
 (In a terminal type `./fetch_data.sh`) 
 (if you want to set up your own paths, copy this file to e.g. `fetch_my_urls.sh` and edit the paths.)
+
+
+
+Creating a git data snapshot
+----------------------------
+
+The code in `git.sh` can be used to update a git repository (in the data directory) with a new commit each time it is run. The IATI Tech Team maintains a git repository with nightly snapshot commits, but it is not public, see https://github.com/IATI/IATI-Stats#getting-some-data-to-run-stats-on
 
 
 Wget Caveats
