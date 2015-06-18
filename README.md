@@ -36,12 +36,12 @@ Installation and usage
 ----------------------
 
 Place all files in the same directory.
-Create an empty directories called `urls` and `data`, e.g.
+Create an empty directories called `urls`, `data` and `ckan`
 ```
 mkdir urls data ckan
 ```
 
-From a terminal, use php-cli to run:
+From a terminal, use php-cli (command line interface) to run:
 ```
 php grab_urls.php
 ```
