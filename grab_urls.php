@@ -30,7 +30,7 @@
   
 // Function to perform an API request against the IATI Registry CKAN v3 API
 function api_request($path, $data=null, $ckan_file=null) {
-    $api_root = "http://iatiregistry.org/api/3/";
+    $api_root = "https://iatiregistry.org/api/3/";
 
     if ($data === null) $data_string = '{}';
     else $data_string = json_encode($data);
