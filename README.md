@@ -28,7 +28,7 @@ It also requires curl.
 on Ubuntu 
 ```
 sudo apt-get install curl
-sudo apt-get install php5-curl
+sudo apt-get install php5-curl php5-cli
 ```
 
 
