@@ -88,7 +88,9 @@ foreach ($groups as $group) {
         $result = api_request('action/package_search', array('fq'=>"organization:".$group, 'rows'=>1000000), "ckan/" . $group);
         foreach ($result->results as $package) {
             try {
-                $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;
+                if (count($package->resources) > 0) {
+                    $urls_string .= $package->name . ' ' . (string)$package->resources[0]->url . PHP_EOL;
+                }
             } catch (Exception $e) {
                 // Catch exceptions here to prevent one url from breaking an entire publisher
                 print 'Caught exception in '.$file.': ' . $e->getMessage();
