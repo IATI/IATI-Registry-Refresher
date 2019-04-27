@@ -13,7 +13,7 @@ The registry holds records about where data can be found on the interent.
 
 The application is basically 2 scripts that you run one after the other.
 
-`grab_urls.php` 
+`grab_urls.py`
 queries the registry and creates a text file for each group on the registry of all url end points of IATI data files
 
 `fetch_data.sh`
@@ -22,13 +22,13 @@ uses wget to pull all the data from those url text files and deposit them in the
 
 Requirements
 ------------
-IATI Registry Refresher requires PHP version 5.2.0 or later.
+IATI Registry Refresher requires python 3.
 
 It also requires curl.
 on Ubuntu 
 ```
 sudo apt-get install curl
-sudo apt-get install php5-curl php5-cli
+sudo apt-get install python-pip python-dev
 ```
 
 
@@ -41,11 +41,11 @@ Create an empty directories called `urls`, `data` and `ckan`
 mkdir urls data ckan
 ```
 
-From a terminal, use php-cli (command line interface) to run:
+From a terminal, run:
 ```
-php grab_urls.php
+python grab_urls.py
 ```
-(if you want to set up your own paths, copy this file to e.g. ` grab_my_urls.php` and edit the paths.)
+(if you want to set up your own paths, copy this file to e.g. `grab_my_urls.py` and edit the paths.)
 This gives the data endpoints for all the files in the IATI registry (see 
 http://iatiregistry.org/)
 
