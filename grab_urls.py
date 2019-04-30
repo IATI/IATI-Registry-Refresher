@@ -19,9 +19,7 @@ along with IATI Registry Refresher.  If not, see <http://www.gnu.org/licenses/>.
 IATI Registry Refresher relies on other free software products. See the README.md file
 for more details.
 """
-from os import mkdir
-from os.path import exists
-from shutil import rmtree
+from os.path import join
 from time import sleep
 
 import requests
@@ -39,34 +37,35 @@ def request_with_backoff(*args, attempts=5, backoff=0.5, **kwargs):
     raise Exception(f'Failed after {attempts} attempts. Giving up.')
 
 
-# Remove `urls` files
-rmtree('urls', ignore_errors=True)
-mkdir('urls')
-
-# Loop through each page and save the URL end-points of the data files
 print('Fetching:')
 api_root = 'https://iatiregistry.org/api/3/action'
-page = 1
-page_size = 1000
-while True:
-    start = page_size * (page - 1)
-    result = request_with_backoff(
-        'get',
-        f'{api_root}/package_search',
-        params={'start': start, 'rows': page_size}).json()['result']
-    if result['results'] == []:
-        break
 
-    for package in result['results']:
-        organization = package['organization']
-        if len(package['resources']) > 0 and organization:
-            file = f'urls/{organization["name"]}'
-            if not exists(file):
-                print(organization['name'])
-            url_string = '{name} {url}\n'.format(
-                name=package['name'],
-                url=package['resources'][0]['url'],
-            )
-            with open(file, 'a') as f:
-                f.write(url_string)
-    page += 1
+# Pull all the group identifiers from the registry
+# We store them in an array , $groups, for later use
+organisation_names = request_with_backoff(
+    'get',
+    f'{api_root}/organization_list').json()['result']
+
+# Loop through each organization and save the URL end-points of the data files
+# You may need to set up an empty directory called "urls"
+for organisation_name in organisation_names:
+    print(organisation_name)
+    filename = f'urls/{organisation_name}'
+
+    response = request_with_backoff(
+        'get', f'{api_root}/package_search',
+        params={'fq': f'organization:{organisation_name}', 'rows': 1000000})
+
+    with open(join('ckan', organisation_name), 'wb') as handler:
+        # Save CKAN json from the API call to a file
+        handler.write(response.content)
+    result = response.json()['result']
+
+    with open(filename, 'w') as handler:
+        for package in result['results']:
+            if len(package['resources']) > 0:
+                url_string = '{name} {url}\n'.format(
+                    name=package['name'],
+                    url=package['resources'][0]['url'],
+                )
+                handler.write(url_string)
