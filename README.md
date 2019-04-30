@@ -25,12 +25,21 @@ Requirements
 IATI Registry Refresher requires python 3.
 
 It also requires curl.
-on Ubuntu 
+
+On Ubuntu:
+
 ```
 sudo apt-get install curl
 sudo apt-get install python-pip python-dev
 ```
 
+Then set up a virtual environment:
+
+```
+python3 -m venv pyenv
+source pyenv/bin/activate
+pip install -r requirements.txt
+```
 
 Installation and usage
 ----------------------
