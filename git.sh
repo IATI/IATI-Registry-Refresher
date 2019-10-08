@@ -26,8 +26,8 @@ cd urls
 git rm -r *
 cd ..
 
-# Run grab_urls.php
-php grab_urls.php
+# Run grab_urls.py
+python grab_urls.py
 
 # Run /fetch_data.sh and capture both STDIN and STDERR.
 # Both of these are uploaded to github gist
