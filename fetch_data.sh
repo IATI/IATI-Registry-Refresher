@@ -1,25 +1,25 @@
 #!/bin/bash
 #
 #      fetch_data.sh
-#
+#      
 #      Copyright 2012 caprenter <caprenter@gmail.com>
-#
+#      
 #      This file is part of IATI Registry Refresher.
-#
+#      
 #      IATI Registry Refresher is free software: you can redistribute it and/or modify
 #      it under the terms of the GNU General Public License as published by
 #      the Free Software Foundation, either version 3 of the License, or
 #      (at your option) any later version.
-#
+#      
 #      IATI Registry Refresher is distributed in the hope that it will be useful,
 #      but WITHOUT ANY WARRANTY; without even the implied warranty of
 #      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #      GNU General Public License for more details.
-#
+#      
 #      You should have received a copy of the GNU General Public License
 #      along with IATI Registry Refresher.  If not, see <http://www.gnu.org/licenses/>.
-#
-#      IATI Registry Refresher relies on other free software products. See the README.txt file
+# 
+#      IATI Registry Refresher relies on other free software products. See the README.txt file 
 #      for more details.
 #
 
@@ -46,7 +46,7 @@ do
     # --connect-timeout=10 times out if establishing a connection takes longer
     #                      than 10 seconds
     # --tries=3 means a download is tried at most 3 times
-    wget --header "Accept: application/xhtml+xml,application/xml,*/*;q=0.9" --restrict-file-names=nocontrol --tries=3 --read-timeout=30 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
+    wget --no-check-certificate --restrict-file-names=nocontrol --tries=3 --read-timeout=30 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" "$url" -O data/`basename $f`/$package_name
     # Fetch the exitcode of the previous command
     exitcode=$?
     # If the exitcode is not zero (ie. there was an error), output to STDOUT
