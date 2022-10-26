@@ -63,7 +63,7 @@ http://iatiregistry.org/)
 
 Run reload to get all the data.
 (In a terminal type `python main.py -t reload`) 
-(if you want to set up your own paths, copy this file to e.g. `fetch_my_urls.sh` and edit the paths PUBLISHER_META_DIR, URL_DIR, and DATA_DIR.)
+(if you want to set up your own paths edit the paths set in PUBLISHER_META_DIR, URL_DIR, and DATA_DIR.)
 
 
 Creating a git data snapshot

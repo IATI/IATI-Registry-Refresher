@@ -55,9 +55,11 @@ def requests_retry_session(
     session.mount('https://', adapter)
     return session
 
-def fetch_publishers():
+def fetch_publishers(limit):
     """Fetch list of publishers from registry."""
     url= f"{REGISTRY_BASE_URL}/action/organization_list"
+    if limit:
+        url += f"?limit={limit}"
     response = requests_retry_session().get(url=url, timeout=30)
     if response.status_code == 200:
         json_response = json.loads(response.content)
@@ -107,10 +109,10 @@ def download_file(download_url, file_destination):
                     file.write(chunk)
         return file_destination
 
-def refresh():
+def refresh(limit):
     """Gets publisher metadata and package urls from the IATI Registry API."""
     log.info('Starting refresh...')
-    publishers = fetch_publishers()
+    publishers = fetch_publishers(limit)
     for publisher in publishers:
         log.info("Fetching %s", publisher)
         publisher_meta = fetch_publisher(publisher)
@@ -129,27 +131,28 @@ def reload():
     log.info('Starting reload...')
     with os.scandir(f"{URL_DIR}/") as entries:
         for entry in entries:
-            publisher = entry.name
-            log.info("Downloading files for %s", publisher)
-            urls = parse_urls(f"{URL_DIR}/{publisher}")
-            if len(urls) > 0:
-                try:
-                    os.mkdir(f"{DATA_DIR}/{publisher}")
-                except FileExistsError:
-                    continue
-                for file_name, file_url in urls:
+            if not entry.name.startswith('.') and entry.is_file():
+                publisher = entry.name
+                log.info("Downloading files for %s", publisher)
+                urls = parse_urls(f"{URL_DIR}/{publisher}")
+                if len(urls) > 0:
                     try:
-                        download_file(file_url, file_destination=f"{DATA_DIR}/{publisher}/{file_name}")
-                        sleep(1)
-                    except Exception as error:
-                        log.error("Error Downloading file: %s url: %s error: %s", file_name, file_url, error)
+                        os.mkdir(f"{DATA_DIR}/{publisher}")
+                    except FileExistsError:
+                        continue
+                    for file_name, file_url in urls:
+                        try:
+                            download_file(file_url, file_destination=f"{DATA_DIR}/{publisher}/{file_name}")
+                            sleep(1)
+                        except Exception as error:
+                            log.error("Error Downloading file: %s url: %s error: %s", file_name, file_url, error)
                     
 
 def main(args):
     """Main entrypoint to run the refresh and reload"""
     try:
         if args.type == "refresh":
-            refresh()
+            refresh(args.limit)
         if args.type == "reload":
             reload()
     except Exception as error:
@@ -158,6 +161,8 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Refresh from IATI Registry')
     parser.add_argument('-t', '--type', dest='type',
-                        default="refresh", help="Trigger 'refresh' or 'validate'")
+                        default="refresh", help="Trigger 'refresh' or 'reload'")
+    parser.add_argument('-l', '--limit', dest='limit',
+                        default="", help="Limit number of publishers to download")
     args = parser.parse_args()
     main(args)
