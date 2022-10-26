@@ -57,7 +57,7 @@ python grab_urls.py
 ```
 
 
-(if you want to set up your own paths, copy this file to e.g. ` grab_my_urls.py` and edit the paths.)
+(if you want to set up your own paths, copy this file to e.g. ` grab_my_urls.py` and edit the paths set in PUBLISHER_META_DIR and URL_DIR.)
 This gives the data endpoints for all the files in the IATI registry (see 
 http://iatiregistry.org/)
 

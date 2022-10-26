@@ -1,7 +1,11 @@
 import json
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
+
+REGISTRY_BASE_URL = "https://iatiregistry.org/api/3"
+PUBLISHER_META_DIR = 'ckan'
+URL_DIR = 'urls'
 
 def requests_retry_session(
     retries=10,
@@ -23,8 +27,6 @@ def requests_retry_session(
     session.mount('https://', adapter)
     return session
 
-REGISTRY_BASE_URL = "https://iatiregistry.org/api/3"
-
 def fetch_publishers():
     """Fetch list of publishers from registry."""
     url= f"{REGISTRY_BASE_URL}/action/organization_list"
@@ -45,15 +47,30 @@ def fetch_publisher(publisher):
 
 def write_publisher(publisher, publisher_meta):
     """Write an individual publisher's metadata to file."""
-    with open(f"ckan/{publisher}_n", 'w', encoding='utf-8') as file:
+    file_path = f"{PUBLISHER_META_DIR}/{publisher}"
+    with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(publisher_meta, file)
 
+def write_urls(publisher, url_string):
+    """Write a publishers urls to file."""
+    file_path = f"{URL_DIR}/{publisher}_n"
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(url_string)
 
 def main():
+    """Gets publisher metadata and package urls from the IATI Registry API."""
     publishers = fetch_publishers()
     for publisher in publishers:
+        print(f"{publisher}")
         publisher_meta = fetch_publisher(publisher)
         write_publisher(publisher, publisher_meta)
+        url_string = ''
+        for package in publisher_meta['result']['results']:
+            try:
+                url_string += f"{package['name']} {package['resources'][0]['url']}\n"
+            except Exception as error:
+                print(f"Caught exception for url_string {publisher}: {error} ")
+        write_urls(publisher, url_string)
 
 if __name__ == '__main__':
     main()
