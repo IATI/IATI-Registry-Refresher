@@ -26,7 +26,7 @@ cd ..
 
 # Run refresh
 # use -l <int> to set limit to a few publishers for testing
-python main.py -t refresh &> logs/$(date +\%Y\%m\%d)-refresh.log
+python main.py -t refresh -l 10 &> logs/$(date +\%Y\%m\%d)-refresh.log
 
 # Run reload and capture both STDIN and STDERR.
 python main.py -t reload &> logs/$(date +\%Y\%m\%d)-reload.log
