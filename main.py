@@ -84,7 +84,7 @@ def write_publisher(publisher, publisher_meta):
 
 def write_urls(publisher, url_string):
     """Write a publishers urls to file."""
-    file_path = f"{URL_DIR}/{publisher}_n"
+    file_path = f"{URL_DIR}/{publisher}"
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(url_string)
 

@@ -16,7 +16,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # refetch them
 
 cd data
-git checkout main
+git checkout automatic
 git rm -r *
 cd ..
 
