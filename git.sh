@@ -21,27 +21,19 @@ git rm -r *
 cd ..
 
 cd urls
-git checkout main
-git rm -r *
+rm -r *
 cd ..
 
 # Run refresh
-# use -l 10 to set limit to 10 publishers for testing
+# use -l <int> to set limit to a few publishers for testing
 python main.py -t refresh &> logs/$(date +\%Y\%m\%d)-refresh.log
-
-# Commit url changes
-cd urls/
-git add .
-git commit -a -m "Automatic data refresh"
-cd ..
 
 # Run reload and capture both STDIN and STDERR.
 python main.py -t reload &> logs/$(date +\%Y\%m\%d)-reload.log
 
+# Commit data
 cd data/
 git add .
-
-# Make the commit 
 git commit -a -m "Automatic data refresh"
 cd ..
 
