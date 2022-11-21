@@ -44,10 +44,10 @@ function api_request($path, $data=null, $ckan_file=null) {
         'Content-Length: '.strlen($data_string))
     );
     
-    // Try up to 5 times if we get a 500 error.
+    // Try up to 5 times if we get a non- 200 status code.
     for ($i=0; $i<5; $i++) {
         $result = curl_exec($ch);
-        if (curl_getinfo($ch)['http_code'] == 500) {
+        if (curl_getinfo($ch)['http_code'] != 200) {
             // Wait a second before we retry
             sleep(1);
         }
