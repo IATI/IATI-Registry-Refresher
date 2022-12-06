@@ -3,8 +3,8 @@
 # wish to use it yourself, you will need to create a git 
 # repository in the data/ and urls/ directories.
 # 
-# Full details of how this is deployed on IATI servers can be found in this
-# state file:
+# Full details of how this used to be deployed on IATI servers can be found in this
+# state file, this is no longer used in practice:
 # https://github.com/IATI/IATI-Websites/blob/master/salt/dashboard.sls
 
 # Ensure that the current working directory is the one containing this file
