@@ -24,12 +24,6 @@ Requirements
 ------------
 IATI Registry Refresher requires Python 3.10 or later
 
-It also requires curl.
-on Ubuntu 
-```
-sudo apt-get install curl
-```
-
 
 Installation and usage
 ----------------------
@@ -83,7 +77,6 @@ License
 
 ``` 
 Copyright 2012 caprenter <caprenter@gmail.com>
-Copyright 2022 nosvalds <nik@nikolaso.com>
 
 This file is part of IATI Registry Refresher.
      
