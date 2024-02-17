@@ -27,6 +27,7 @@
 # seperated url lists correctly.
 IFS=$'\n'
 
+# Make Commands
 FILES=urls/*
 for f in $FILES
 do
@@ -46,15 +47,12 @@ do
     # --tries=3 means a download is tried at most 3 times
     # --retry-connrefused  means that connection refused errors will be treated
     #                      as transient errors and retried
-    wget --header "Accept: application/xhtml+xml,application/xml,*/*;q=0.9" --restrict-file-names=nocontrol --tries=3 --read-timeout=30 --dns-timeout=10 --connect-timeout=10 -U "IATI-Data-Snappshotter" --retry-connrefused "$url" -O data/`basename $f`/$package_name
-    # Fetch the exitcode of the previous command
-    exitcode=$?
-    # If the exitcode is not zero (ie. there was an error), output to STDOUT
-    if [ $exitcode -ne 0 ]; then
-      echo $exitcode `basename $f` $url_line
-    fi
-
-    # Delay of 1 second between requests, so as not to upset servers
-    sleep 1s
+    echo "wget --header \"Accept: application/xhtml+xml,application/xml,*/*;q=0.9\" --restrict-file-names=nocontrol --tries=3 --read-timeout=30 --dns-timeout=10 --connect-timeout=10 -U \"IATI-Data-Snappshotter\" --retry-connrefused \"$url\" -O data/`basename $f`/$package_name; test \"\$?\" != 0 && echo \$? `basename $f` $url_line " >> tmp_download_commands
   done
 done
+
+# Run commands in parallel
+(cat tmp_download_commands | sort -R | parallel -j5) || true
+
+# Delete tmp command file
+rm tmp_download_commands
