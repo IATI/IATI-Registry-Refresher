@@ -56,9 +56,3 @@ git push
 
 
 
-
-#### Post processing on our new data snapshot.
-# Removing any lines below will not affect snapshot creation
-
-cd ..
-GIST=true ./validate.sh
