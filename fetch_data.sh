@@ -35,8 +35,6 @@ do
     package_name=`echo $url_line | sed 's/ .*$//'`
     mkdir -p data/`basename $f`/
 
-    # --no-check-certificate added to deal with sites using https - not the
-    #                        best solution!
     # --restrict-file-names=nocontrol ensures that UTF8 files get created
     #                                 properly
     # -U sets our custom user agent, which allows sites to keep track of which
