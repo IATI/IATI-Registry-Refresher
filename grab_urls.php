@@ -39,6 +39,7 @@ function api_request($path, $data=null, $ckan_file=null) {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, "IATI Secretariat Registry Refresher https://github.com/IATI/IATI-Registry-Refresher");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'Content-Length: '.strlen($data_string))
